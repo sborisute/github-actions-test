@@ -2,6 +2,7 @@ name: actions workflow
 
 on:
   - push
+  - pull_request
 
 jobs:
   run-actions:
@@ -16,6 +17,7 @@ jobs:
           echo $GITHUB_WORKSPACE
           echo ${{ github.token }}
       - name: Checkout
+        # https://github.com/actions/checkout#usage
         uses: actions/checkout@v1
       - name: List files after checkout
         run: |
