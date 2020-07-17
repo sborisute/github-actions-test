@@ -2,15 +2,24 @@ name: actions workflow
 
 on:
   push:
-  pull_request:
-    types:
-      - closed
-      - assigned
-      - opened
-      - reopened
+    branches:
+      - master # https://docs.github.com/en/actions/reference/workflow-syntax-for-github-actions#filter-pattern-cheat-sheet
+      - 'feature/*' # will only match one forward-slash  
+      - 'feature/**' # will work with feature/123/123 & feature/123
+      - '!feature/test' # ignore this branch
+    # paths:
+    #   - '**.js'
   repository_dispatch:
     types:
       - build
+  # pull_request:
+  #   types:
+  #     - closed
+  #     - assigned
+  #     - opened
+  #     - reopened
+  # schedule:
+  #   - cron: "* * * 1 *"
 
 jobs:
   run-actions:
