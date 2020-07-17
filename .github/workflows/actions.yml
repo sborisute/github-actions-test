@@ -4,10 +4,13 @@ on:
   push:
   pull_request:
     types:
-     - closed
-     - assigned
-     - opened
-     - reopened
+      - closed
+      - assigned
+      - opened
+      - reopened
+  repository_dispatch:
+    types:
+      - build
 
 jobs:
   run-actions:
@@ -32,6 +35,6 @@ jobs:
         id: greet
         uses: actions/hello-world-javascript-action@v1
         with:
-          who-to-greet: YOLO
+          who-to-greet: hey
       - name: Log Greeting Time
         run: echo "${{ steps.greet.outputs.time }}"
