@@ -10,10 +10,11 @@ jobs:
       - name: List files
         run: |
           pwd
-          ls
-          cd ..
-          cd ..
-          ls -a
+          ls -s
+          echo $GITHUB_SHA
+          echo $GITHUB_REPOSITORY
+          echo $GITHUB_WORKSPACE
+          echo ${{ github.token }}
       - name: Checkout
         uses: actions/checkout@v1
       - name: List files after checkout
