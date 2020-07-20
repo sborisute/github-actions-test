@@ -21,6 +21,9 @@ on:
   # schedule:
   #   - cron: "* * * 1 *"
 
+env: 
+  WF_ENV: Avaliable to all jobs 
+  
 jobs:
   run-actions:
     runs-on: ubuntu-latest
@@ -49,3 +52,26 @@ jobs:
           who-to-greet: hey
       - name: Log Greeting Time
         run: echo "${{ steps.greet.outputs.time }}"
+  log-env:
+    runs-on: ubuntu-latest
+    env:
+      JOB_ENV: Avaliable only inside steps of the log env job
+    steps:
+      - name: Log ENV Variables
+        env: 
+          STEP_ENV: Avaliable only inside this step
+        run: |
+          echo "WF_ENV: ${WF_ENV}"
+          echo "JOB_ENV: ${JOB_ENV}"
+          echo "STEP_ENV: ${STEP_ENV}"
+      - name: Log ENV Variables 2
+        run: |
+          echo "WF_ENV: ${WF_ENV}"
+          echo "JOB_ENV: ${JOB_ENV}"
+          echo "STEP_ENV: ${STEP_ENV}"
+  log-default-env:
+    runs-on: ubuntu-latest
+    steps: 
+      - name: Default ENV Variables
+        run: |
+          echo "HOME: ${HOME}"
