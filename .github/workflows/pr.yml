@@ -1,8 +1,9 @@
 name: Set Code Review Status 
 # https://developer.atlassian.com/cloud/jira/platform/rest/v3/api-group-issues/#api-rest-api-3-issue-issueidorkey-transitions-post
-on:  
-  pull_request_review:
-    types: [dismissed]
+on:
+  issue_comment:
+    types: [created]
+
 jobs:
   pr-reviewed:
     runs-on: ubuntu-latest
