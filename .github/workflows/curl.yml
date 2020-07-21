@@ -2,9 +2,15 @@ name: Create issue on commit
 on:
 - push
 jobs:
-  create_commit:
+  create_issue:
     runs-on: ubuntu-latest
     steps:
+    - name: Push a random file
+      run: |
+        pwd
+        ls -a 
+        git init 
+        git remote add origin "https://$GITHUB_ACTOR:${{ secrets.GITHUB_TOKEN }}@github.com/$GITHUB_REPOSITORY.git"
     - name: Create issue using REST API
       run: |
         curl --request POST \
