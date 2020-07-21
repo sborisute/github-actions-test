@@ -3,6 +3,7 @@ name: Set Code Review Status
 on:
   issue_comment:
     types: [created]
+    
 jobs:
   pr-reviewed:
     runs-on: ubuntu-latest
