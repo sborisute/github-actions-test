@@ -1,0 +1,10 @@
+name: Create issue on commit
+on:  
+  pull_request_review:
+    types: [dismissed]
+jobs:
+  pr-reviewed:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Pr reviewed 
+        run: echo 'pr reviewed'
