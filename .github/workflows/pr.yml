@@ -3,11 +3,15 @@ name: Set Code Review Status
 on:
   issue_comment:
     types: [created]
+
 jobs:
-  pr-reviewed:
+  pr-comment-info:
     runs-on: ubuntu-latest
     steps:
-      - name: Pr reviewed 
+      - name: Comment info 
         env:
-          GITHUB_CONTEXT: ${{ toJson(github) }}
-        run: echo "$GITHUB_CONTEXT"
+          COMMENT_BODY: ${{ github.event.comment.body }}
+          ISSUE_TITLE: ${{ github.event.issue.title }}
+        run: |
+          echo "$COMMENT_BODY"
+          echo "$ISSUE_TITLE"
