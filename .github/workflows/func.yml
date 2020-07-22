@@ -4,6 +4,7 @@ on: push
 jobs:
   functions:
     runs-on: ubuntu-latest
+    if: github.event_name == 'push'
     steps:
       - name: dump
         run: |
@@ -11,3 +12,10 @@ jobs:
           echo ${{ startsWith('hello', 'he') }}
           echo ${{ endsWith('hello', 'lo') }}
           echo ${{ format('Hello {0}{1}', 'World', '!') }}
+      - name: fail
+        run: |
+          eccho this will not run
+      - name: runrun
+        if: failure()
+        run: |
+          echo failed
