@@ -1,0 +1,77 @@
+name: actions workflow
+
+on:
+  push:
+    branches:
+      - master # https://docs.github.com/en/actions/reference/workflow-syntax-for-github-actions#filter-pattern-cheat-sheet
+      - 'feature/*' # will only match one forward-slash  
+      - 'feature/**' # will work with feature/123/123 & feature/123
+      - '!feature/test' # ignore this branch
+    # paths:
+    #   - '**.js'
+  repository_dispatch:
+    types:
+      - build
+  # pull_request:
+  #   types:
+  #     - closed
+  #     - assigned
+  #     - opened
+  #     - reopened
+  # schedule:
+  #   - cron: "* * * 1 *"
+
+env: 
+  WF_ENV: Avaliable to all jobs 
+  
+jobs:
+  run-actions:
+    runs-on: ubuntu-latest
+    steps:
+      - name: payload
+        run: echo ${{ github.event.client_payload.greeting }}
+      - name: List files
+        run: |
+          pwd
+          ls -s
+          echo $GITHUB_SHA
+          echo $GITHUB_REPOSITORY
+          echo $GITHUB_WORKSPACE
+          echo ${{ github.token }}
+      - name: Checkout
+        # https://github.com/actions/checkout#usage
+        uses: actions/checkout@v1
+      - name: List files after checkout
+        run: |
+          pwd
+          ls -a
+      - name: JS Action
+        id: greet
+        uses: actions/hello-world-javascript-action@v1
+        with:
+          who-to-greet: hey
+      - name: Log Greeting Time
+        run: echo "${{ steps.greet.outputs.time }}"
+  log-env:
+    runs-on: ubuntu-latest
+    env:
+      JOB_ENV: Avaliable only inside steps of the log env job
+    steps:
+      - name: Log ENV Variables
+        env: 
+          STEP_ENV: Avaliable only inside this step
+        run: |
+          echo "WF_ENV: ${WF_ENV}"
+          echo "JOB_ENV: ${JOB_ENV}"
+          echo "STEP_ENV: ${STEP_ENV}"
+      - name: Log ENV Variables 2
+        run: |
+          echo "WF_ENV: ${WF_ENV}"
+          echo "JOB_ENV: ${JOB_ENV}"
+          echo "STEP_ENV: ${STEP_ENV}"
+  log-default-env:
+    runs-on: ubuntu-latest
+    steps: 
+      - name: Default ENV Variables
+        run: |
+          echo "HOME: ${HOME}"
